@@ -1,0 +1,26 @@
+{
+  "name": "jquery-prayer-times",
+  "version": "1.0.0",
+  "description": "A small jQuery plugin for displaying Muslim Prayer Times",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MuhammadMabrouk/jquery-prayer-times.git"
+  },
+  "keywords": [
+    "prayer-times",
+    "prayer",
+    "times",
+    "muslim",
+    "islam",
+    "jquery"
+  ],
+  "author": "Muhammad Mabrouk",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MuhammadMabrouk/jquery-prayer-times/issues"
+  },
+  "homepage": "https://github.com/MuhammadMabrouk/jquery-prayer-times#readme"
+}
