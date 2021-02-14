@@ -3,6 +3,7 @@
 A small jQuery plugin for displaying Muslim Prayer Times.
 
 <br>
+
 ### Features!
 
   - English/Arabic language support.
@@ -13,6 +14,7 @@ A small jQuery plugin for displaying Muslim Prayer Times.
 
 
 <br>
+
 ### Install
 
 ```sh
@@ -31,6 +33,7 @@ or
 
 
 <br>
+
 ### Examples:
 
 ```html
@@ -40,25 +43,30 @@ or
 
 
 <br>
+
 **1- Default:**
 ```javascript
 $('.prayer-times').prayerTimes();
 ```
 
 <br>
+
 ![alt text](https://drive.google.com/uc?export=view&id=1BrO_Y1spw7LDD5QT9wfPR6JuPUHuDPmh "Default Prayer Times")
 
 
 <br>
+
 **2- Arabic:**
 ```javascript
 $('.prayer-times').prayerTimes({ arabic: true });
 ```
 
 <br>
+
 ![alt text](https://drive.google.com/uc?export=view&id=1yn5_djV6dG73rw-f2W2IB1aTKIhXWVP7 "Arabic")
 
 <br>
+
 ### Options:
 | Prop | Type | Description | Default |
 | ----------- |    :----:   | ----------- |    :----:   |
@@ -73,6 +81,7 @@ $('.prayer-times').prayerTimes({ arabic: true });
 | outputEl | `'table'` &#124; `'ul'` | Determine an HTML element to print timings. | `'table'` |
 
 <br>
+
 **3- Customized:**
 ```javascript
 $('.prayer-times').prayerTimes({
@@ -86,9 +95,10 @@ $('.prayer-times').prayerTimes({
 ```
 
 <br>
+
 ![alt text](https://drive.google.com/uc?export=view&id=1PODfTdS4E3y2Pn8laqSF__cD8B3dqPjy "Customized")
-<br>
-<br>
+
+<br><br>
 
 ### License
 
