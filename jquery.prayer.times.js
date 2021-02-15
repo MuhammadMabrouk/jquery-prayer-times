@@ -24,31 +24,71 @@ $.fn.prayerTimes = function(options = {}) {
     country: options.country || null,
     imsak: typeof options.imsak === 'undefined' ? true : options.imsak,
     sunrise: typeof options.sunrise === 'undefined' ? true : options.sunrise,
+    sunset: typeof options.sunset === 'undefined' ? true : options.sunset,
     midnight: typeof options.midnight === 'undefined' ? true : options.midnight,
     arabic: typeof options.arabic === 'undefined' ? false : options.arabic,
+    militaryTime: typeof options.militaryTime === 'undefined' ? true : options.militaryTime,
     outputEl: options.outputEl || 'table'
   };
 
   // get prayer times
   function getPrayerTimes({city, country}) {
     const url = `https://api.aladhan.com/v1/timingsByCity?midnightMode=1&method=${defaultOptions.method}&school=${defaultOptions.school}&city=${city}&country=${country}`;
-    $.get(url, res => $this.html(generateOutput(res.data.timings)));
+    const savedData = JSON.parse(localStorage.getItem('jquery-prayer-times'));
+
+    if (savedData) {
+      // check if it's a new day or the same day
+      if (compareTime(savedData.timestamp) > 0 || url !== savedData.lastQueries) { // new day or new queries
+
+        // get data from api
+        getApiData();
+        console.log('New day or queries!');
+
+      } else { // same day
+
+        console.log('Same day & queries!');
+        // generate output content
+        $this.html(generateOutput(savedData.value.data.timings));
+      }
+
+    } else {
+      // get data from api
+      getApiData();
+      console.log('First time!');
+    }
+
+    // get data from api
+    function getApiData() {
+      $.get(url, res => {
+        // save in localStorage
+        localStorage.setItem('jquery-prayer-times', JSON.stringify({
+          lastQueries: url,
+          value: res,
+          timestamp: getFormattedDate()
+        }));
+
+        // generate output content
+        $this.html(generateOutput(res.data.timings));
+      });
+    }
   }
 
   // generate output content
   function generateOutput(timings) {
     const container = (defaultOptions.outputEl === 'table') ? 'table' : 'ul';
     const isArabic = defaultOptions.arabic ? true : false;
+    const is12Hr = defaultOptions.militaryTime ? false : true;
     const name = (time, index) => isArabic ? prayersList[index] : time;
+    const formattedTime = (time) => is12Hr ? timeTo12HrFormat(time) : time;
 
     let i = 0;
     let content = `<${container}>`;
     for (const time in timings) {
       const timeName = name(time, i);
-      const timeValue = timings[time];
-      if (time === 'Sunset') { i++; continue; };
+      const timeValue = formattedTime(timings[time]);
       if (!defaultOptions.imsak && time === 'Imsak') { i++; continue; };
       if (!defaultOptions.sunrise && time === 'Sunrise') { i++; continue; };
+      if (!defaultOptions.sunset && time === 'Sunset') { i++; continue; };
       if (!defaultOptions.midnight && time === 'Midnight') { i++; continue; };
 
       content += `${container === 'table' ?
@@ -59,6 +99,35 @@ $.fn.prayerTimes = function(options = {}) {
     content += `</${container}>`;
 
     return content;
+  }
+
+  // get date in nice format (return today's date by default)
+  function getFormattedDate(date = new Date()) {
+    const dd = String(date.getDate()).padStart(2, '0');
+    const mm = String(date.getMonth() + 1).padStart(2, '0'); // January is 0!
+    const yyyy = date.getFullYear();
+    const getFormattedDate = `${dd}/${mm}/${yyyy}`;
+  
+    return getFormattedDate;
+  }
+
+  // calculate the number of days between two dates
+  function compareTime(time) {
+    const todayDate = new Date(...getFormattedDate().split('/'));
+    const oldDate = new Date(...time.split('/'));
+    // hours * minutes * seconds * milliseconds
+    const oneDay = 24 * 60 * 60 * 1000;
+  
+    return Math.round(((todayDate - oldDate) / oneDay) / 365);
+  }
+
+  // convert time from 24 hour to 12 hour format
+  function timeTo12HrFormat(time) {
+    const timeArr = time.split(':');
+    const H = +timeArr[0];
+    const h = H % 12 || 12;
+    const am_pm = (H < 12 || H === 24) ? 'AM' : 'PM';
+    return `${`${h}`.padStart(2, '0')}:${timeArr[1]} ${am_pm}`;
   }
 
   // call 'getPrayerTimes' function

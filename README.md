@@ -7,10 +7,12 @@ A small jQuery plugin for displaying Muslim Prayer Times.
 ### Features!
 
   - English/Arabic language support.
-  - Auto detect visitor location.
+  - Auto detect visitor location. *(Limited to 1,000 requests per day)*.
+  - Store data in local storage to make one request per user per day.
   - 13 Different Calculation Methods.
-  - 2 Calculation Methods for Asr Time (Shafi/Hanafi).
-  - Ability to show/hide additional times (imsak, sunrise and midnight).
+  - 2 Calculation Methods for Asr Time. *(Shafei/Hanafi)*.
+  - 2 Formats for time. *(24-hour/12-hour)*.
+  - Ability to show/hide additional times. *(imsak, sunrise, sunset and midnight)*.
 
 
 <br>
@@ -76,8 +78,10 @@ $('.prayer-times').prayerTimes({ arabic: true });
 | city | `string` | A city name. (Example: `Mecca`) <br> If you leave this empty, it defaults to user city. | `null` |
 | imsak | `boolean` | Set to `true` or `false` to show or hide the imsak time | `true` |
 | sunrise | `boolean` | Set to `true` or `false` to show or hide the sunrise time | `true` |
+| sunset | `boolean` | Set to `true` or `false` to show or hide the sunset time | `true` |
 | midnight | `boolean` | Set to `true` or `false` to show or hide the midnight time | `true` |
 | arabic | `boolean` | Set to `true` or `false` to display in arabic | `false` |
+| militaryTime | `boolean` | Set to `true` or `false` to switch between 24-hour and 12-hour formats | `true` |
 | outputEl | `'table'` &#124; `'ul'` | Determine an HTML element to print timings. | `'table'` |
 
 <br>
@@ -89,6 +93,7 @@ $('.prayer-times').prayerTimes({
   arabic: true,
   imsak: false,
   sunrise: false,
+  sunset: false,
   midnight: false,
   outputEl: 'ul'
 });
