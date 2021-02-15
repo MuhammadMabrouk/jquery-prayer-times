@@ -66,7 +66,7 @@ $.fn.prayerTimes = function(options = {}) {
     getPrayerTimes({city: defaultOptions.city, country: defaultOptions.country});
 
   } else {
-    $.get("http://ip-api.com/json", data => {
+    $.get("https://ipinfo.io", data => {
       getPrayerTimes({city: data.city, country: data.country});
     });
   }
