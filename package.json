@@ -1,6 +1,6 @@
 {
   "name": "jquery-prayer-times",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A small jQuery plugin for displaying Muslim Prayer Times",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

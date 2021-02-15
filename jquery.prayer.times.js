@@ -31,7 +31,7 @@ $.fn.prayerTimes = function(options = {}) {
 
   // get prayer times
   function getPrayerTimes({city, country}) {
-    const url = `http://api.aladhan.com/v1/timingsByCity?midnightMode=1&method=${defaultOptions.method}&school=${defaultOptions.school}&city=${city}&country=${country}`;
+    const url = `https://api.aladhan.com/v1/timingsByCity?midnightMode=1&method=${defaultOptions.method}&school=${defaultOptions.school}&city=${city}&country=${country}`;
     $.get(url, res => $this.html(generateOutput(res.data.timings)));
   }
 
