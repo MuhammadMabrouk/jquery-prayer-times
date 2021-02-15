@@ -52,8 +52,8 @@ $.fn.prayerTimes = function(options = {}) {
       if (!defaultOptions.midnight && time === 'Midnight') { i++; continue; };
 
       content += `${container === 'table' ?
-        `<tr><td tabindex="0">${timeName}</td><td tabindex="0">${timeValue}</td></tr>` :
-        `<li><span tabindex="0">${timeName}</span><span tabindex="0">${timeValue}</span></li>`}`;
+        `<tr tabindex="0"><td>${timeName}</td><td>${timeValue}</td></tr>` :
+        `<li tabindex="0"><span>${timeName}</span><span>${timeValue}</span></li>`}`;
       i++;
     }
     content += `</${container}>`;
