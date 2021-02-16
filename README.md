@@ -89,13 +89,12 @@ $('.prayer-times').prayerTimes({ arabic: true });
 **3- Customized:**
 ```javascript
 $('.prayer-times').prayerTimes({
-  method: 4,
   arabic: true,
+  method: 5,
+  militaryTime: false,
   imsak: false,
-  sunrise: false,
   sunset: false,
-  midnight: false,
-  outputEl: 'ul'
+  midnight: false
 });
 ```
 
