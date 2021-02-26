@@ -106,5 +106,4 @@ $('.prayer-times').prayerTimes({
 
 ### License
 
-
 MIT

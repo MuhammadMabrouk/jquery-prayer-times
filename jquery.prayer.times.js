@@ -30,35 +30,14 @@ $.fn.prayerTimes = function(options = {}) {
     militaryTime: typeof options.militaryTime === 'undefined' ? true : options.militaryTime,
     outputEl: options.outputEl || 'table'
   };
+  const savedData = JSON.parse(localStorage.getItem('jquery-prayer-times'));
 
   // get prayer times
   function getPrayerTimes({city, country}) {
     const url = `https://api.aladhan.com/v1/timingsByCity?midnightMode=1&method=${defaultOptions.method}&school=${defaultOptions.school}&city=${city}&country=${country}`;
-    const savedData = JSON.parse(localStorage.getItem('jquery-prayer-times'));
 
-    if (savedData) {
-      // check if it's a new day or the same day
-      if (compareTime(savedData.timestamp) > 0 || url !== savedData.lastQueries) { // new day or new queries
-
-        // get data from api
-        getApiData();
-        console.log('New day or queries!');
-
-      } else { // same day
-
-        console.log('Same day & queries!');
-        // generate output content
-        $this.html(generateOutput(savedData.value.data.timings));
-      }
-
-    } else {
-      // get data from api
-      getApiData();
-      console.log('First time!');
-    }
-
-    // get data from api
-    function getApiData() {
+    // get data if first time or new day or different queries
+    if (!savedData || (savedData && (compareTime(savedData.timestamp) > 0 || url !== savedData.lastQueries))) {
       $.get(url, res => {
         // save in localStorage
         localStorage.setItem('jquery-prayer-times', JSON.stringify({
@@ -70,6 +49,11 @@ $.fn.prayerTimes = function(options = {}) {
         // generate output content
         $this.html(generateOutput(res.data.timings));
       });
+
+    } else {
+
+      // generate output content
+      $this.html(generateOutput(savedData.value.data.timings));
     }
   }
 
@@ -134,9 +118,12 @@ $.fn.prayerTimes = function(options = {}) {
   if (defaultOptions.city && defaultOptions.country) {
     getPrayerTimes({city: defaultOptions.city, country: defaultOptions.country});
 
+    // if same day
+  } else if (savedData && (compareTime(savedData.timestamp) === 0)) {
+    const parameters = new URLSearchParams(savedData.lastQueries);
+    getPrayerTimes({city: parameters.get('city'), country: parameters.get('country')});
+
   } else {
-    $.get("https://ipinfo.io/json", data => {
-      getPrayerTimes({city: data.city, country: data.country});
-    });
+    $.get("https://ipinfo.io/json", data => getPrayerTimes({ city: data.city, country: data.country }));
   }
 }
